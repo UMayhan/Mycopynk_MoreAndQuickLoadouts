@@ -4,6 +4,6 @@ namespace MoreAndQuickLoadouts
     {
         public const string PLUGIN_GUID = "MoreAndQuickLoadouts";
         public const string PLUGIN_NAME = "com.mayhan_gm.mycopunk.moreandquickloadouts";
-        public const string PLUGIN_VERSION = "0.0.5";
+        public const string PLUGIN_VERSION = "0.0.8";
     }
 }

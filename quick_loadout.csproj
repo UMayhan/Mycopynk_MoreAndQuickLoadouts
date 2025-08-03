@@ -4,7 +4,6 @@
     <TargetFramework>net472</TargetFramework>
     <AssemblyName>MoreAndQuickLoadouts</AssemblyName>
     <Product>com.mayhan_gm.mycopunk.moreandquickloadouts</Product>
-    <Version>0.0.5</Version>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>latest</LangVersion>
     <RestoreAdditionalProjectSources>
@@ -39,4 +38,43 @@
       <HintPath>lib\Unity.Netcode.Runtime.dll</HintPath>
     </Reference>
   </ItemGroup>
+
+  <Target Name="UpdateBuildVersion" BeforeTargets="BeforeBuild">
+    <ReadLinesFromFile File="build_version.txt">
+      <Output TaskParameter="Lines" ItemName="CurrentVersion"/>
+    </ReadLinesFromFile>
+
+    <PropertyGroup>
+      <!-- Get the version as a string -->
+      <BuildVersionString>%(CurrentVersion.Identity)</BuildVersionString>
+    </PropertyGroup>
+
+    <!-- Split the version string into parts -->
+    <CreateProperty Value="$([System.Text.RegularExpressions.Regex]::Match($(BuildVersionString), '^([0-9]+)').Groups[1].Value)">
+      <Output TaskParameter="Value" PropertyName="MajorVersion" />
+    </CreateProperty>
+    <CreateProperty Value="$([System.Text.RegularExpressions.Regex]::Match($(BuildVersionString), '^[0-9]+\.([0-9]+)').Groups[1].Value)">
+      <Output TaskParameter="Value" PropertyName="MinorVersion" />
+    </CreateProperty>
+    <CreateProperty Value="$([System.Text.RegularExpressions.Regex]::Match($(BuildVersionString), '^[0-9]+\.[0-9]+\.([0-9]+)').Groups[1].Value)">
+      <Output TaskParameter="Value" PropertyName="BuildNumber" />
+    </CreateProperty>
+    <CreateProperty Value="$([MSBuild]::Add($(BuildNumber), 1))">
+      <Output TaskParameter="Value" PropertyName="IncrementedBuildNumber" />
+    </CreateProperty>
+    <CreateProperty Value="$(MajorVersion).$(MinorVersion).$(IncrementedBuildNumber)">
+      <Output TaskParameter="Value" PropertyName="NewVersion" />
+    </CreateProperty>
+
+    <PropertyGroup>
+
+      <Version>$(NewVersion)</Version>
+      <AssemblyVersion>$(NewVersion)</AssemblyVersion>
+      <FileVersion>$(NewVersion)</FileVersion>
+      <InformationalVersion>$(NewVersion)</InformationalVersion>
+    </PropertyGroup>
+
+    <WriteLinesToFile File="build_version.txt" Lines="$(NewVersion)" Overwrite="true" />
+  </Target>
+
 </Project>

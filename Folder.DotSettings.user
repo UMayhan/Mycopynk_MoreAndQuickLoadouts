@@ -57,4 +57,5 @@
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AWranglerUpgradeFlags_002Ecs_002Fl_003A_002E_002E_003F_002E_002E_003F_002E_002E_003FUsers_003Ftopch_003FAppData_003FRoaming_003FJetBrains_003FRider2025_002E1_003Fresharper_002Dhost_003FDecompilerCache_003Fdecompiler_003F04d21836d7e944f8b112c95556c70f8b34ea00_003Fb7_003Fd126d969_003FWranglerUpgradeFlags_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:String x:Key="/Default/Environment/AssemblyExplorer/XmlDocument/@EntryValue">&lt;AssemblyExplorer&gt;&#xD;
   &lt;Assembly Path="C:\Projects\Mycopunk_modding\quick_loadout\lib\Assembly-CSharp.dll" /&gt;&#xD;
+  &lt;Assembly Path="C:\Projects\Mycopunk_modding\quick_loadout\bin\Debug\net472\MoreAndQuickLoadouts.dll" /&gt;&#xD;
 &lt;/AssemblyExplorer&gt;</s:String></wpf:ResourceDictionary>

@@ -1,0 +1,9 @@
+{
+  "name": "MoreAndQuickLoadouts",
+  "version_number": "1.0.10",
+  "website_url": "https://github.com/UMayhan/Mycopynk_MoreAndQuickLoadouts",
+  "description": "Not enough loadouts? It's not a problem anymore - now you can have up to 8 loadouts!\nDon’t know how to switch between them quickly? Use the Loadout Wheel!",
+  "dependencies": [
+    "BepInEx-BepInExPack_Mycopunk-5.4.2403"
+  ]
+}

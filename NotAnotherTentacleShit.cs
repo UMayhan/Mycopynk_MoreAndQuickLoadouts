@@ -380,7 +380,7 @@ public static class NotAnotherTentacleShit
                 return;
             }
 
-            BasePlugin.Logger.LogInfo($"WeaponLoadoutWheel called with performed: {performed}");
+            // BasePlugin.Logger.LogInfo($"WeaponLoadoutWheel called with performed: {performed}");
 
             if (performed)
             {
@@ -389,7 +389,7 @@ public static class NotAnotherTentacleShit
                 var quipWheelField = AccessTools.Field(typeof(Highlighter), "quipWheel");
                 var quipWheel = quipWheelField?.GetValue(highlighterInstance) as RectTransform;
         
-                BasePlugin.Logger.LogInfo($"Before enabling mode - quipWheel: {quipWheel?.name ?? "null"}");
+                // BasePlugin.Logger.LogInfo($"Before enabling mode - quipWheel: {quipWheel?.name ?? "null"}");
         
                 var gear = type switch
                 {
@@ -461,7 +461,7 @@ public static class NotAnotherTentacleShit
                 // Call our custom setup method
                 SetupLoadouts(highlighterInstance, loadoutDataList);
 
-                BasePlugin.Logger.LogInfo($"Setup weapon loadout wheel with {loadoutDataList.Count} valid loadouts");
+                // BasePlugin.Logger.LogInfo($"Setup weapon loadout wheel with {loadoutDataList.Count} valid loadouts");
             }
             else
             {
@@ -494,7 +494,7 @@ public static class NotAnotherTentacleShit
 
                 _isLoadoutWheelMode = false;
 
-                BasePlugin.Logger.LogInfo($"Applying weapon loadout at index: {selectedIndex}");
+                // BasePlugin.Logger.LogInfo($"Applying weapon loadout at index: {selectedIndex}");
 
                 // Apply the selected loadout using our stored data
                 ApplySelectedLoadout(selectedIndex);
@@ -613,7 +613,7 @@ public static class NotAnotherTentacleShit
             var remainingCooldown = GetRemainingCooldown();
             if (remainingCooldown > 0)
             {
-                BasePlugin.Logger.LogWarning($"Loadout change on cooldown. {remainingCooldown:F1} seconds remaining.");
+                // BasePlugin.Logger.LogWarning($"Loadout change on cooldown. {remainingCooldown:F1} seconds remaining.");
                 return;
             }
 

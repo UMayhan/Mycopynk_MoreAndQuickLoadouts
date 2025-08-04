@@ -9,7 +9,7 @@ public class LoadoutInjector : MonoBehaviour
     public GearDetailsWindow target;
     public Transform targetTransform => target.transform;
 
-    public int targetCount = 5;
+    public int targetCount;
     private int spacingY => 52;
     
     public void InjectLoadouts()
@@ -21,6 +21,7 @@ public class LoadoutInjector : MonoBehaviour
         var originalButtons = AccessTools.FieldRefAccess<GearDetailsWindow, LoadoutHoverInfo[]>("loadoutButtons");
         var buttons = originalButtons(target);
         var existingCount = buttons.Length;
+        if (targetCount <= existingCount) return;
         
         // Create a new array with the target size
         var newButtons = new LoadoutHoverInfo[targetCount];
@@ -44,11 +45,9 @@ public class LoadoutInjector : MonoBehaviour
         
         if (lastLoadout == null || lastIconSwitch == null)
         {
-            // Debug.LogError("[Mod] Could not find original Loadout or IconB to clone.");
             return;
         }
 
-        // Debug.Log($"[Mod] Found {existingCount} loadouts. Expanding to {targetCount}.");
         
         for (var i = existingCount; i < targetCount; i++)
         {

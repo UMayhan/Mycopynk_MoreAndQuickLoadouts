@@ -14,11 +14,11 @@ public static class PluginConfig
     public static void Init(ConfigFile config)
     {
         LoadoutSize = config.Bind("General", "LoadoutSize", 5, 
-            new ConfigDescription("The number of total available loadouts. (including default ones)", new AcceptableValueRange<int>(3, 10)));
+            new ConfigDescription("The number of total available loadouts. (including default ones)", new AcceptableValueRange<int>(3, 8)));
         LoadoutChangeCooldown = config.Bind("General", "LoadoutChangeCooldown", 45,
-            new ConfigDescription("Cooldown for loadout change", new AcceptableValueRange<int>(0, 300))); 
-        LoadoutChangeDMGPercent = config.Bind("General", "LoadoutChangeDMGPercent", 50f,
-            new ConfigDescription("Cooldown for loadout change", new AcceptableValueRange<float>(0f, 100f)));
+            new ConfigDescription("Cooldown for loadout change. (basically balancing it for a bit, but do what you do)", new AcceptableValueRange<int>(0, 300))); 
+        LoadoutChangeDMGPercent = config.Bind("General", "LoadoutChangeDMGPercent", 100f,
+            new ConfigDescription("Self Damage for loadout change. (basically balancing it for a bit, but do what you do)", new AcceptableValueRange<float>(0f, 100f)));
 
         const string bindingString = $"Use Unity Input System control path format. See: https://docs.unity3d.com/Packages/com.unity.inputsystem@1.5/manual/ActionBindings.html#binding-syntax\"";
         

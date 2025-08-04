@@ -10,7 +10,7 @@ public class GearDetailsWindow_Awake_Patch
     [HarmonyPrefix]
     public static bool PreAwake(GearDetailsWindow __instance)
     {
-        BasePlugin.Logger.LogInfo("GearDetailsWindow_Awake_Patch");
+        // BasePlugin.Logger.LogInfo("GearDetailsWindow_Awake_Patch");
         var injector = __instance.gameObject.AddComponent<LoadoutInjector>();
         injector.target = __instance;
         injector.targetCount = BasePlugin.LoadoutSize;

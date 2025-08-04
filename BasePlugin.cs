@@ -18,19 +18,17 @@ public class BasePlugin : BaseUnityPlugin
         Logger = base.Logger;
         
         PluginConfig.Init(Config);
-        // InputManager.Init();
         NotAnotherTentacleShit.InitializeInputActions();
 
         _harmony = new Harmony(MyPluginInfo.PLUGIN_GUID);
         
         _harmony.PatchAll();
         
-        Logger.LogInfo("quick_loadout loaded and harmony patch applied.");
+        Logger.LogInfo($"{MyPluginInfo.PLUGIN_GUID} loaded.");
     }
 
     private void OnDestroy()
     {
-        // InputManager.Cleanup();
         NotAnotherTentacleShit.CleanupInputActions();
         _harmony.UnpatchSelf();
     }

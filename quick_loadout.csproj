@@ -6,7 +6,7 @@
     <Product>com.mayhan_gm.mycopunk.moreandquickloadouts</Product>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>latest</LangVersion>
-    <NoWarn>CS0436</NoWarn>
+    <NoWarn>CS0436;MSB3277</NoWarn>
     <RestoreAdditionalProjectSources>
       https://api.nuget.org/v3/index.json;
       https://nuget.bepinex.dev/v3/index.json;

@@ -17,8 +17,9 @@ public class BasePlugin : BaseUnityPlugin
         Logger = base.Logger;
         
         PluginConfig.Init(Config);
-        InputManager.Init();
-        
+        // InputManager.Init();
+        Highlighter_Patch.InitializeInputActions();
+
         _harmony = new Harmony(MyPluginInfo.PLUGIN_GUID);
         
         _harmony.PatchAll();
@@ -28,7 +29,8 @@ public class BasePlugin : BaseUnityPlugin
 
     private void OnDestroy()
     {
-        InputManager.Cleanup();
+        // InputManager.Cleanup();
+        Highlighter_Patch.CleanupInputActions();
         _harmony.UnpatchSelf();
     }
 }

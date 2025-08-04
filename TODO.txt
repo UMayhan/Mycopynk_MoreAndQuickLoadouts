@@ -1,8 +1,0 @@
-check Menu.cs how utility and mobility stats are updated
-
-update utility and mobility on employee loadout change
-
-check self damage values
-
-add an icon for loadout change cooldown
- 

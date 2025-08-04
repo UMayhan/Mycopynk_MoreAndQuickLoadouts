@@ -1,7 +1,7 @@
 using BepInEx.Configuration;
 
 namespace MoreAndQuickLoadouts;
-
+//TODO:change Bindings to better way of managing keys instead of strings might be tricky for some people to configurate
 public static class PluginConfig
 {
     public static ConfigEntry<int> LoadoutSize;

@@ -123,8 +123,6 @@
 //                             Player.LocalPlayer.SelectedGear.Enable();
 //                         Player.LocalPlayer.ApplyUpgrades();
 //                         Player.LocalPlayer.SyncSkins();
-//                         BasePlugin.Logger.LogWarning($" DEBUG {string.Join(";", Player.LocalPlayer.Gear.Where(g => g != null).Select(g => g.Info.Name))}");
-//                         BasePlugin.Logger.LogWarning($"{Player.LocalPlayer.GetPlayerInfo().character.Info.Name} {Player.LocalPlayer.ThrowableGear?.Info?.Name ?? "null"}");
 //                     }, isNext);
 //                     return idx;
 //                 },

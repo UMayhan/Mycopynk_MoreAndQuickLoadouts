@@ -1,10 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "axAN9pY9v3Q=",
+  "dgSpecHash": "hQK+fAoG54w=",
   "success": true,
   "projectFilePath": "C:\\Projects\\Mycopunk_modding\\quick_loadout\\quick_loadout.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\topch\\.nuget\\packages\\bepinex.analyzers\\1.0.8\\bepinex.analyzers.1.0.8.nupkg.sha512",
+    "C:\\Users\\topch\\.nuget\\packages\\bepinex.assemblypublicizer.msbuild\\0.4.1\\bepinex.assemblypublicizer.msbuild.0.4.1.nupkg.sha512",
     "C:\\Users\\topch\\.nuget\\packages\\bepinex.baselib\\5.4.20\\bepinex.baselib.5.4.20.nupkg.sha512",
     "C:\\Users\\topch\\.nuget\\packages\\bepinex.core\\5.4.21\\bepinex.core.5.4.21.nupkg.sha512",
     "C:\\Users\\topch\\.nuget\\packages\\bepinex.plugininfoprops\\2.1.0\\bepinex.plugininfoprops.2.1.0.nupkg.sha512",

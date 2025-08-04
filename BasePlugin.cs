@@ -5,6 +5,7 @@ using HarmonyLib;
 namespace MoreAndQuickLoadouts;
 
 [BepInPlugin(MyPluginInfo.PLUGIN_GUID, MyPluginInfo.PLUGIN_NAME, MyPluginInfo.PLUGIN_VERSION)]
+[MycoMod(null, ModFlags.IsClientSide)]
 public class BasePlugin : BaseUnityPlugin
 {
     private Harmony _harmony;
@@ -18,7 +19,7 @@ public class BasePlugin : BaseUnityPlugin
         
         PluginConfig.Init(Config);
         // InputManager.Init();
-        Highlighter_Patch.InitializeInputActions();
+        NotAnotherTentacleShit.InitializeInputActions();
 
         _harmony = new Harmony(MyPluginInfo.PLUGIN_GUID);
         
@@ -30,7 +31,7 @@ public class BasePlugin : BaseUnityPlugin
     private void OnDestroy()
     {
         // InputManager.Cleanup();
-        Highlighter_Patch.CleanupInputActions();
+        NotAnotherTentacleShit.CleanupInputActions();
         _harmony.UnpatchSelf();
     }
 }

@@ -5,7 +5,7 @@
   },
   "projects": {
     "C:\\Projects\\Mycopunk_modding\\quick_loadout\\quick_loadout.csproj": {
-      "version": "0.0.5",
+      "version": "1.0.0",
       "restore": {
         "projectUniqueName": "C:\\Projects\\Mycopunk_modding\\quick_loadout\\quick_loadout.csproj",
         "projectName": "MoreAndQuickLoadouts",
@@ -51,6 +51,11 @@
               "suppressParent": "All",
               "target": "Package",
               "version": "[1.*, )"
+            },
+            "BepInEx.AssemblyPublicizer.MSBuild": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[0.4.1, )"
             },
             "BepInEx.Core": {
               "target": "Package",

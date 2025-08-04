@@ -7,10 +7,9 @@ public static class PluginConfig
     public static ConfigEntry<int> LoadoutSize;
     public static ConfigEntry<int> LoadoutChangeCooldown;
     public static ConfigEntry<float> LoadoutChangeDMGPercent;
-    public static ConfigEntry<string> NextLoadoutBinding;
-    public static ConfigEntry<string> PreviousLoadoutBinding;
-    public static ConfigEntry<string> GrenadeLoadoutModifier;
-    public static ConfigEntry<string> EmployeeLoadoutModifier;
+    public static ConfigEntry<string> WeaponLoadoutBinding;
+    public static ConfigEntry<string> GrenadeLoadoutBinding;
+    public static ConfigEntry<string> EmployeeLoadoutBinding;
 
     public static void Init(ConfigFile config)
     {
@@ -20,10 +19,11 @@ public static class PluginConfig
             new ConfigDescription("Cooldown for loadout change", new AcceptableValueRange<int>(0, 300))); 
         LoadoutChangeDMGPercent = config.Bind("General", "LoadoutChangeDMGPercent", 50f,
             new ConfigDescription("Cooldown for loadout change", new AcceptableValueRange<float>(0f, 100f)));
+
+        const string bindingString = $"Use Unity Input System control path format. See: https://docs.unity3d.com/Packages/com.unity.inputsystem@1.5/manual/ActionBindings.html#binding-syntax\"";
         
-        NextLoadoutBinding = config.Bind("Bindings", "NextLoadoutBinding", "<Keyboard>/x", "The key to use to switch to the next loadout of your current holding weapon.");
-        PreviousLoadoutBinding = config.Bind("Bindings", "PreviousLoadoutBinding", "<Keyboard>/z", "The key to use to switch to the previous loadout of your current holding weapon.");
-        GrenadeLoadoutModifier = config.Bind("Bindings", "GrenadeLoadoutModifier", "<Keyboard>/alt", "The modifier to use when switching the grenade loadout instead of weapon.");
-        EmployeeLoadoutModifier = config.Bind("Bindings", "EmployeeLoadoutModifier", "<Keyboard>/capslock", "The modifier to use when switching the employee loadout instead of weapon.");
+        WeaponLoadoutBinding = config.Bind("Bindings", "WeaponLoadoutBinding", "<Keyboard>/h", $"Toggle weapon loadout wheel.\n {bindingString}");
+        GrenadeLoadoutBinding = config.Bind("Bindings", "GrenadeLoadoutBinding", "<Keyboard>/j", $"Toggle grenade loadout wheel. \n{bindingString}.");
+        EmployeeLoadoutBinding = config.Bind("Bindings", "EmployeeLoadoutBinding", "<Keyboard>/k", $"Toggle employee loadout wheel. \n{bindingString}");
     }
 }

@@ -1,0 +1,55 @@
+# IDE
+.vscode/
+.idea/
+*.suo
+*.user
+*.userprefs
+
+# Build artifacts
+/bin/
+//obj/
+/lib/
+
+# NuGet
+*.nupkg
+*.snupkg
+*.nuspec
+*.psmdcp
+*.ps1
+*.ps1xml
+*.pssc
+*.psm1
+*.vsix
+*.nupkg
+
+# DLLs and PDBs
+*.dll
+*.pdb
+
+# Unity-generated
+*.csproj
+*.csproj.*
+*.unityproj
+*.sln
+*.sln.*
+
+# Rider files
+*.DotSettings
+*.DotSettings.user
+
+# Logs
+*.log
+
+# User config
+build_version.txt
+
+# Cache
+*.cache
+*.md5
+
+# BepInEx plugin builds (optional: if output copied elsewhere)
+BepInEx/plugins/*
+
+# OS
+.DS_Store
+Thumbs.db

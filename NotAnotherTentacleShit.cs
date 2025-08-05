@@ -36,6 +36,36 @@ public static class NotAnotherTentacleShit
     private static float _lastLoadoutChangeTime = -999f;
     private static LoadoutType? _activeWheelType;
 
+    private static PropertyInfo _isTextChatOpenPlayerLook;
+
+    private static bool IsTextChatOpen
+    {
+        get
+        {
+            try
+            {
+                if (_isTextChatOpenPlayerLook == null)
+                {
+                    _isTextChatOpenPlayerLook = AccessTools.Property(typeof(PlayerLook), "IsTextChatOpen");
+                    if (_isTextChatOpenPlayerLook == null)
+                    {
+                        // Field not found, log warning and return false
+                        BasePlugin.Logger.LogWarning("IsTextChatOpen field not found in PlayerLook type. Defaulting to false.");
+                        return false;
+                    }
+                }
+
+                var result = _isTextChatOpenPlayerLook.GetValue(PlayerLook.Instance);
+                return result != null && (bool)result;
+            }
+            catch (Exception ex)
+            {
+                BasePlugin.Logger.LogError($"Error accessing IsTextChatOpen: {ex}");
+                return false;
+            }
+        }
+    }
+
     
     // Initialize InputActions directly, not through patches
     public static void InitializeInputActions()
@@ -144,6 +174,8 @@ public static class NotAnotherTentacleShit
     {
         try
         {
+            if (IsTextChatOpen) return;
+            
             if (_activeWheelType.HasValue && _activeWheelType != LoadoutType.Weapon)
                 return;
 
@@ -159,6 +191,8 @@ public static class NotAnotherTentacleShit
     {
         try
         {
+            if (IsTextChatOpen) return;
+            
             if (_activeWheelType.HasValue && _activeWheelType != LoadoutType.Grenade)
                 return;
 
@@ -175,6 +209,8 @@ public static class NotAnotherTentacleShit
     {
         try
         {
+            if (IsTextChatOpen) return;
+            
             if (_activeWheelType.HasValue && _activeWheelType != LoadoutType.Employee)
                 return;
 
@@ -442,7 +478,7 @@ public static class NotAnotherTentacleShit
                 }
 
                 _isLoadoutWheelMode = true;
-
+                
                 var enableQuipWheelField = AccessTools.Field(typeof(Highlighter), "enableQuipWheel");
                 var enableQuipWheelTimeField = AccessTools.Field(typeof(Highlighter), "enableEquipWheelTime");
                 var selectedQuipIndexField = AccessTools.Field(typeof(Highlighter), "selectedQuipIndex");
@@ -461,7 +497,7 @@ public static class NotAnotherTentacleShit
                 // Call our custom setup method
                 SetupLoadouts(highlighterInstance, loadoutDataList);
 
-                // BasePlugin.Logger.LogInfo($"Setup weapon loadout wheel with {loadoutDataList.Count} valid loadouts");
+                // BasePlugin.Logger.LogInfo($"Setup weapon loadout wheel with {loadoutDataList.Count} valid loadouts}");
             }
             else
             {

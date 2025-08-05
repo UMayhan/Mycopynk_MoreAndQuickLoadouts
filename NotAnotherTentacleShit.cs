@@ -36,7 +36,7 @@ public static class NotAnotherTentacleShit
     private static float _lastLoadoutChangeTime = -999f;
     private static LoadoutType? _activeWheelType;
 
-    private static PropertyInfo _isTextChatOpenPlayerLook;
+    // private static PropertyInfo _isTextChatOpenPlayerLook;
 
     private static bool IsTextChatOpen
     {
@@ -44,19 +44,20 @@ public static class NotAnotherTentacleShit
         {
             try
             {
-                if (_isTextChatOpenPlayerLook == null)
-                {
-                    _isTextChatOpenPlayerLook = AccessTools.Property(typeof(PlayerLook), "IsTextChatOpen");
-                    if (_isTextChatOpenPlayerLook == null)
-                    {
-                        // Field not found, log warning and return false
-                        BasePlugin.Logger.LogWarning("IsTextChatOpen field not found in PlayerLook type. Defaulting to false.");
-                        return false;
-                    }
-                }
+                // if (_isTextChatOpenPlayerLook == null)
+                // {
+                //     _isTextChatOpenPlayerLook = AccessTools.Property(typeof(PlayerLook), "IsTextChatOpen");
+                //     if (_isTextChatOpenPlayerLook == null)
+                //     {
+                //         // Field not found, log warning and return false
+                //         BasePlugin.Logger.LogWarning("IsTextChatOpen field not found in PlayerLook type. Defaulting to false.");
+                //         return false;
+                //     }
+                // }
 
-                var result = _isTextChatOpenPlayerLook.GetValue(PlayerLook.Instance);
-                return result != null && (bool)result;
+                // var result = _isTextChatOpenPlayerLook.GetValue(PlayerLook.Instance);
+                // return result != null && (bool)result;
+                return PlayerLook.Instance.IsTextChatOpen;
             }
             catch (Exception ex)
             {
@@ -232,59 +233,70 @@ public static class NotAnotherTentacleShit
 
         try
         {
-            var quipWheelField = AccessTools.Field(typeof(Highlighter), "quipWheel");
-            var quipWheel = quipWheelField?.GetValue(highlighterInstance) as RectTransform;
+            // var quipWheelField = AccessTools.Field(typeof(Highlighter), "quipWheel");
+            // var quipWheel = quipWheelField?.GetValue(highlighterInstance) as RectTransform;
+            //
+            // if (quipWheel == null)
+            // {
+            //     // Try to call the original method to see if it initializes anything
+            //     var originalMethod = AccessTools.Method(typeof(Highlighter), "HandleQuipWheel");
+            //     if (originalMethod != null)
+            //     {
+            //         originalMethod.Invoke(highlighterInstance, null);
+            //
+            //         // Check again after calling original
+            //         quipWheel = quipWheelField?.GetValue(highlighterInstance) as RectTransform;
+            //     }
+            //
+            //     if (quipWheel == null)
+            //     {
+            //         BasePlugin.Logger.LogError("quipWheel is still null even after calling original method");
+            //         return;
+            //     }
+            // }
 
-            if (quipWheel == null)
-            {
-                // Try to call the original method to see if it initializes anything
-                var originalMethod = AccessTools.Method(typeof(Highlighter), "HandleQuipWheel");
-                if (originalMethod != null)
-                {
-                    originalMethod.Invoke(highlighterInstance, null);
-
-                    // Check again after calling original
-                    quipWheel = quipWheelField?.GetValue(highlighterInstance) as RectTransform;
-                }
             
-                if (quipWheel == null)
-                {
-                    BasePlugin.Logger.LogError("quipWheel is still null even after calling original method");
-                    return;
-                }
-            }
-
             
             
-            var enableQuipWheelField = AccessTools.Field(typeof(Highlighter), "enableQuipWheel");
-            var enableEquipWheelTimeField = AccessTools.Field(typeof(Highlighter), "enableEquipWheelTime");
-            var timeBeforeActivatingWheelField = AccessTools.Field(typeof(Highlighter), "timeBeforeActivatingWheel");
-            var selectedQuipIndexField = AccessTools.Field(typeof(Highlighter), "selectedQuipIndex");
-            var quipLabelField = AccessTools.Field(typeof(Highlighter), "quipLabel");
-            var quipIconsField = AccessTools.Field(typeof(Highlighter), "quipIcons");
-            var quipSelectorField = AccessTools.Field(typeof(Highlighter), "quipSelector");
-            var quipSelectedColorField = AccessTools.Field(typeof(Highlighter), "quipSelectedColor");
-            var quipUnselectedColorField = AccessTools.Field(typeof(Highlighter), "quipUnselectedColor");
-            var quipSelectedScaleField = AccessTools.Field(typeof(Highlighter), "quipSelectedScale");
-            var emoteBindingField = AccessTools.Field(typeof(Highlighter), "emoteBinding");
+            // var enableQuipWheelField = AccessTools.Field(typeof(Highlighter), "enableQuipWheel");
+            // var enableEquipWheelTimeField = AccessTools.Field(typeof(Highlighter), "enableEquipWheelTime");
+            // var timeBeforeActivatingWheelField = AccessTools.Field(typeof(Highlighter), "timeBeforeActivatingWheel");
+            // var selectedQuipIndexField = AccessTools.Field(typeof(Highlighter), "selectedQuipIndex");
+            // var quipLabelField = AccessTools.Field(typeof(Highlighter), "quipLabel");
+            // var quipIconsField = AccessTools.Field(typeof(Highlighter), "quipIcons");
+            // var quipSelectorField = AccessTools.Field(typeof(Highlighter), "quipSelector");
+            // var quipSelectedColorField = AccessTools.Field(typeof(Highlighter), "quipSelectedColor");
+            // var quipUnselectedColorField = AccessTools.Field(typeof(Highlighter), "quipUnselectedColor");
+            // var quipSelectedScaleField = AccessTools.Field(typeof(Highlighter), "quipSelectedScale");
+            // var emoteBindingField = AccessTools.Field(typeof(Highlighter), "emoteBinding");
+            //
+            //
+            // var enableQuipWheel = (bool)(enableQuipWheelField.GetValue(highlighterInstance) ?? false);
+            // var enableEquipWheelTime = (float)(enableEquipWheelTimeField?.GetValue(highlighterInstance) ?? 0f);
+            // var timeBeforeActivatingWheel = (float)(timeBeforeActivatingWheelField?.GetValue(highlighterInstance) ?? 0.05f);
+            // var selectedQuipIndex = (int)(selectedQuipIndexField?.GetValue(highlighterInstance) ?? 0);
+            // var quipLabel = quipLabelField?.GetValue(highlighterInstance) as TextMeshProUGUI;
+            // var quipIcons = quipIconsField?.GetValue(highlighterInstance) as List<Image>;
+            // var quipSelector = quipSelectorField?.GetValue(highlighterInstance) as Image;
+            // var quipSelectedColor = (Color)(quipSelectedColorField?.GetValue(highlighterInstance) ?? Color.white);
+            // var quipUnselectedColor = (Color)(quipUnselectedColorField?.GetValue(highlighterInstance) ?? Color.gray);
+            // var quipSelectedScale = (float)(quipSelectedScaleField?.GetValue(highlighterInstance) ?? 1.2f);
+            // var emoteBinding = emoteBindingField?.GetValue(highlighterInstance) as TextMeshPro;
+            //
+            // if (emoteBinding != null) emoteBinding.text = "";
+
+            var enableEquipWheelTime = Highlighter.Instance.enableEquipWheelTime;
+            var enableQuipWheel = Highlighter.Instance.enableQuipWheel;
+            var timeBeforeActivatingWheel = Highlighter.Instance.timeBeforeActivatingWheel;
+            var quipSelectedColor = Highlighter.Instance.quipSelectedColor;
+            var quipUnselectedColor = Highlighter.Instance.quipUnselectedColor;
+            var quipSelectedScale = Highlighter.Instance.quipSelectedScale;
             
-
-            var enableQuipWheel = (bool)(enableQuipWheelField.GetValue(highlighterInstance) ?? false);
-            var enableEquipWheelTime = (float)(enableEquipWheelTimeField?.GetValue(highlighterInstance) ?? 0f);
-            var timeBeforeActivatingWheel = (float)(timeBeforeActivatingWheelField?.GetValue(highlighterInstance) ?? 0.05f);
-            var selectedQuipIndex = (int)(selectedQuipIndexField?.GetValue(highlighterInstance) ?? 0);
-            var quipLabel = quipLabelField?.GetValue(highlighterInstance) as TextMeshProUGUI;
-            var quipIcons = quipIconsField?.GetValue(highlighterInstance) as List<Image>;
-            var quipSelector = quipSelectorField?.GetValue(highlighterInstance) as Image;
-            var quipSelectedColor = (Color)(quipSelectedColorField?.GetValue(highlighterInstance) ?? Color.white);
-            var quipUnselectedColor = (Color)(quipUnselectedColorField?.GetValue(highlighterInstance) ?? Color.gray);
-            var quipSelectedScale = (float)(quipSelectedScaleField?.GetValue(highlighterInstance) ?? 1.2f);
-            var emoteBinding = emoteBindingField?.GetValue(highlighterInstance) as TextMeshPro;
-
-            if (emoteBinding != null) emoteBinding.text = "";
-
-
-            if (quipWheel == null)
+            var emoteBinding = Highlighter.Instance.emoteBinding;
+            
+            emoteBinding.text = "";
+            
+            if (Highlighter.Instance.quipWheel == null)
             {
                 BasePlugin.Logger.LogError("quipWheel GameObject is null");
                 return;
@@ -293,10 +305,10 @@ public static class NotAnotherTentacleShit
             if (!enableQuipWheel || Time.unscaledTime - enableEquipWheelTime < timeBeforeActivatingWheel)
                 return;
 
-            if (!quipWheel.gameObject.activeSelf)
+            if (!Highlighter.Instance.quipWheel.gameObject.activeSelf)
             {
                 PlayerInput.EnableMenu();
-                quipWheel.gameObject.SetActive(true);
+                Highlighter.Instance.quipWheel.gameObject.SetActive(true);
                 
                 // Null check for PlayerLook.Instance
                 if (PlayerLook.Instance != null)
@@ -312,9 +324,9 @@ public static class NotAnotherTentacleShit
                 }
 
                 // Set initial loadout label
-                if (_currentLoadouts.Count > 0 && quipLabel != null)
+                if (_currentLoadouts.Count > 0 && Highlighter.Instance.quipLabel != null)
                 {
-                    quipLabel.text = _currentLoadouts[selectedQuipIndex].Label;
+                    Highlighter.Instance.quipLabel.text = _currentLoadouts[Highlighter.Instance.selectedQuipIndex].Label;
                 }
             }
 
@@ -349,37 +361,36 @@ public static class NotAnotherTentacleShit
                     }
 
                     // Update selector rotation
-                    if (quipSelector != null)
+                    if (Highlighter.Instance.quipSelector != null)
                     {
-                        quipSelector.rectTransform.localEulerAngles = new Vector3(0.0f, 0.0f,
-                            Mathf.LerpAngle(quipSelector.rectTransform.localEulerAngles.z,
+                        Highlighter.Instance.quipSelector.rectTransform.localEulerAngles = new Vector3(0.0f, 0.0f,
+                            Mathf.LerpAngle(Highlighter.Instance.quipSelector.rectTransform.localEulerAngles.z,
                                 (float)(newIndex * angleStep + angleStep + 90.0), 18f * Time.deltaTime));
                     }
 
                     // Update icon colors and scales
-                    if (quipIcons != null)
+                    if (Highlighter.Instance.quipIcons != null)
                     {
-                        for (var i = 0; i < Mathf.Min(quipIcons.Count, _currentLoadouts.Count); ++i)
+                        for (var i = 0; i < Mathf.Min(Highlighter.Instance.quipIcons.Count, _currentLoadouts.Count); ++i)
                         {
-                            if (quipIcons[i] != null)
-                            {
-                                quipIcons[i].color = i == newIndex ? quipSelectedColor : quipUnselectedColor;
-                                quipIcons[i].rectTransform.localScale = i == newIndex ?
-                                    new Vector3(quipSelectedScale, quipSelectedScale, quipSelectedScale) : Vector3.one;
-                            }
+                            if (Highlighter.Instance.quipIcons[i] == null) continue;
+                            
+                            Highlighter.Instance.quipIcons[i].color = i == newIndex ? quipSelectedColor : quipUnselectedColor;
+                            Highlighter.Instance.quipIcons[i].rectTransform.localScale = i == newIndex ?
+                                new Vector3(quipSelectedScale, quipSelectedScale, quipSelectedScale) : Vector3.one;
                         }
                     }
 
-                    if (quipLabel == null) return;
+                    if (Highlighter.Instance.quipLabel == null) return;
                     var remainingCooldown = GetRemainingCooldown();
-                    var selectedLoadout = _currentLoadouts[selectedQuipIndex];
+                    var selectedLoadout = _currentLoadouts[Highlighter.Instance.selectedQuipIndex];
     
-                    quipLabel.text = remainingCooldown > 0 
+                    Highlighter.Instance.quipLabel.text = remainingCooldown > 0 
                         ? $"{selectedLoadout.Label}\n\n<size=32><color=white>On Cooldown\n{remainingCooldown:F1}s</size></color>" 
                         : $"{selectedLoadout.Label}\n\n<size=32><color=white>Ready!</size></color>";
                     // Update label if selection changed
-                    if (selectedQuipIndex == newIndex) return;
-                    selectedQuipIndexField?.SetValue(highlighterInstance, newIndex);
+                    if (Highlighter.Instance.selectedQuipIndex == newIndex) return;
+                    Highlighter.Instance.selectedQuipIndex = newIndex;
                     
                     
                 }
@@ -409,7 +420,7 @@ public static class NotAnotherTentacleShit
                 return;
             }
 
-            var highlighterInstance = UnityEngine.Object.FindObjectOfType<Highlighter>();
+            var highlighterInstance = Highlighter.Instance;
             if (highlighterInstance == null)
             {
                 BasePlugin.Logger.LogError("Could not find Highlighter instance");
@@ -420,13 +431,7 @@ public static class NotAnotherTentacleShit
 
             if (performed)
             {
-                _activeWheelType = type;
 
-                var quipWheelField = AccessTools.Field(typeof(Highlighter), "quipWheel");
-                var quipWheel = quipWheelField?.GetValue(highlighterInstance) as RectTransform;
-        
-                // BasePlugin.Logger.LogInfo($"Before enabling mode - quipWheel: {quipWheel?.name ?? "null"}");
-        
                 var gear = type switch
                 {
                     LoadoutType.Weapon => PlayerData.GetGearData(Player.LocalPlayer.SelectedGear),
@@ -441,25 +446,28 @@ public static class NotAnotherTentacleShit
                     return;
                 }
 
-                var fieldRefLoadouts = AccessTools.FieldRefAccess<PlayerData.GearData, object>("loadouts");
-                var loadoutsObj = fieldRefLoadouts(gear);
+                // var fieldRefLoadouts = AccessTools.FieldRefAccess<PlayerData.GearData, object>("loadouts");
+                // var loadoutsObj = fieldRefLoadouts(gear);
+                var loadoutsObj = gear.loadouts;
 
-                if (loadoutsObj is not Array { Length: > 0 } loadouts)
+                if (loadoutsObj is not Array { Length: > 0 })
                 {
                     BasePlugin.Logger.LogWarning("No loadouts available for current weapon");
-                    _activeWheelType = null;
                     return;
                 }
 
                 var loadoutDataList = new List<LoadoutData>();
 
-                for (var i = 0; i < loadouts.Length; i++)
+                for (var i = 0; i < loadoutsObj.Length; i++)
                 {
-                    var loadout = loadouts.GetValue(i);
-                    var upgradesField = loadout.GetType().GetField("upgrades", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+                    // var loadout = loadouts.GetValue(i);
+                    // var upgradesField = loadout.GetType().GetField("upgrades", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
 
-                    if (upgradesField?.GetValue(loadout) is not IList { Count: > 0 }) continue;
-        
+                    var upgrades = loadoutsObj[i].upgrades;
+                    
+                    // if (upgradesField?.GetValue(loadout) is not IList { Count: > 0 }) continue;
+                    if (upgrades is not IList { Count: > 0 }) continue;
+                    
                     var loadoutData = new LoadoutData
                     {
                         Label = $"Loadout {i + 1}",
@@ -478,22 +486,32 @@ public static class NotAnotherTentacleShit
                 }
 
                 _isLoadoutWheelMode = true;
+                _activeWheelType = type;
                 
-                var enableQuipWheelField = AccessTools.Field(typeof(Highlighter), "enableQuipWheel");
-                var enableQuipWheelTimeField = AccessTools.Field(typeof(Highlighter), "enableEquipWheelTime");
-                var selectedQuipIndexField = AccessTools.Field(typeof(Highlighter), "selectedQuipIndex");
-                var emoteLabelField = AccessTools.Field(typeof(Highlighter), "emoteLabel");
-                var emoteBindingField = AccessTools.Field(typeof(Highlighter), "emoteBinding");
                 
-                var emoteBinding = emoteBindingField?.GetValue(highlighterInstance) as TextMeshPro;
-                var emoteLabel = emoteLabelField?.GetValue(highlighterInstance) as TextMeshProUGUI;
+                // var enableQuipWheelField = AccessTools.Field(typeof(Highlighter), "enableQuipWheel");
+                // var enableQuipWheelTimeField = AccessTools.Field(typeof(Highlighter), "enableEquipWheelTime");
+                // var selectedQuipIndexField = AccessTools.Field(typeof(Highlighter), "selectedQuipIndex");
+                // var emoteLabelField = AccessTools.Field(typeof(Highlighter), "emoteLabel");
+                // var emoteBindingField = AccessTools.Field(typeof(Highlighter), "emoteBinding");
+                
+                // var emoteBinding = emoteBindingField?.GetValue(highlighterInstance) as TextMeshPro;
+                // var emoteLabel = emoteLabelField?.GetValue(highlighterInstance) as TextMeshProUGUI;
 
-                if (emoteBinding != null) emoteBinding.text = "";
-                if (emoteLabel != null) emoteLabel.text = gear.Gear.Info.Name;
-                enableQuipWheelField?.SetValue(highlighterInstance, true);
-                enableQuipWheelTimeField?.SetValue(highlighterInstance, Time.unscaledTime);
-                selectedQuipIndexField?.SetValue(highlighterInstance, 0);
+                // if (emoteBinding != null) emoteBinding.text = "";
+                // if (emoteLabel != null) emoteLabel.text = gear.Gear.Info.Name;
+                // enableQuipWheelField?.SetValue(highlighterInstance, true);
+                // enableQuipWheelTimeField?.SetValue(highlighterInstance, Time.unscaledTime);
+                // selectedQuipIndexField?.SetValue(highlighterInstance, 0);
 
+                Highlighter.Instance.emoteBinding.text = "";
+                Highlighter.Instance.emoteLabel.text = gear.Gear.Info.Name;
+                
+                Highlighter.Instance.enableQuipWheel = true;
+                Highlighter.Instance.enableEquipWheelTime = Time.unscaledTime;
+                Highlighter.Instance.selectedQuipIndex = 0;
+                
+                
                 // Call our custom setup method
                 SetupLoadouts(highlighterInstance, loadoutDataList);
 
@@ -503,10 +521,13 @@ public static class NotAnotherTentacleShit
             {
                 _activeWheelType = null;
                 
-                var quipWheelField = AccessTools.Field(typeof(Highlighter), "quipWheel");
-                var selectedQuipIndexField = AccessTools.Field(typeof(Highlighter), "selectedQuipIndex");
-                var quipWheel = quipWheelField?.GetValue(highlighterInstance) as RectTransform;
-                var selectedIndex = (int)(selectedQuipIndexField?.GetValue(highlighterInstance) ?? 0);
+                // var quipWheelField = AccessTools.Field(typeof(Highlighter), "quipWheel");
+                // var selectedQuipIndexField = AccessTools.Field(typeof(Highlighter), "selectedQuipIndex");
+                // var quipWheel = quipWheelField?.GetValue(highlighterInstance) as RectTransform;
+                // var selectedIndex = (int)(selectedQuipIndexField?.GetValue(highlighterInstance) ?? 0);
+                
+                var quipWheel = Highlighter.Instance.quipWheel;
+                var selectedIndex = Highlighter.Instance.selectedQuipIndex;
                 
                 if (quipWheel != null && quipWheel.gameObject.activeSelf)
                 {
@@ -525,9 +546,11 @@ public static class NotAnotherTentacleShit
                     }
                 }
 
-                var enableQuipWheelField = AccessTools.Field(typeof(Highlighter), "enableQuipWheel");
-                enableQuipWheelField?.SetValue(highlighterInstance, false);
+                // var enableQuipWheelField = AccessTools.Field(typeof(Highlighter), "enableQuipWheel");
+                // enableQuipWheelField?.SetValue(highlighterInstance, false);
 
+                Highlighter.Instance.enableQuipWheel = false;
+                
                 _isLoadoutWheelMode = false;
 
                 // BasePlugin.Logger.LogInfo($"Applying weapon loadout at index: {selectedIndex}");
@@ -555,17 +578,22 @@ public static class NotAnotherTentacleShit
             _currentLoadouts.AddRange(loadouts);
 
             // Get necessary fields from Highlighter
-            var quipIconsField = AccessTools.Field(typeof(Highlighter), "quipIcons");
-            var quipWheelField = AccessTools.Field(typeof(Highlighter), "quipWheel");
-            var quipWheelRadiusField = AccessTools.Field(typeof(Highlighter), "quipWheelRadius");
-            var quipIconSizeField = AccessTools.Field(typeof(Highlighter), "quipIconSize");
-            var quipSelectorField = AccessTools.Field(typeof(Highlighter), "quipSelector");
+            // var quipIconsField = AccessTools.Field(typeof(Highlighter), Highlighter.Instance.quipIcons);
+            // var quipWheelField = AccessTools.Field(typeof(Highlighter), "quipWheel");
+            // var quipWheelRadiusField = AccessTools.Field(typeof(Highlighter), "quipWheelRadius");
+            // var quipIconSizeField = AccessTools.Field(typeof(Highlighter), "quipIconSize");
+            // var quipSelectorField = AccessTools.Field(typeof(Highlighter), "quipSelector");
 
-            var quipIcons = quipIconsField?.GetValue(highlighterInstance) as List<Image>;
-            var quipWheel = quipWheelField?.GetValue(highlighterInstance) as RectTransform;
-            var quipWheelRadius = (float)(quipWheelRadiusField?.GetValue(highlighterInstance) ?? 100f);
-            var quipIconSize = (float)(quipIconSizeField?.GetValue(highlighterInstance) ?? 50f);
-            var quipSelector = quipSelectorField?.GetValue(highlighterInstance) as Image;
+            // var quipIcons = quipIconsField?.GetValue(highlighterInstance) as List<Image>;
+            // var quipWheel = quipWheelField?.GetValue(highlighterInstance) as RectTransform;
+            // var quipWheelRadius = (float)(quipWheelRadiusField?.GetValue(highlighterInstance) ?? 100f);
+            // var quipIconSize = (float)(quipIconSizeField?.GetValue(highlighterInstance) ?? 50f);
+            // var quipSelector = quipSelectorField?.GetValue(highlighterInstance) as Image;
+            var quipIcons = Highlighter.Instance.quipIcons;
+            var quipWheel = Highlighter.Instance.quipWheel;
+            var quipWheelRadius = Highlighter.Instance.quipWheelRadius;
+            var quipIconSize = Highlighter.Instance.quipIconSize;
+            var quipSelector = Highlighter.Instance.quipSelector;
 
             if (quipIcons == null || quipWheel == null)
             {
@@ -657,16 +685,17 @@ public static class NotAnotherTentacleShit
             
             if (selectedLoadout.GearData != null)
             {
-                var eqField = selectedLoadout.GearData.GetType().GetField("equippedUpgrades", BindingFlags.Instance | BindingFlags.NonPublic);;
-                var loadField = selectedLoadout.GearData.GetType().GetField("loadouts", BindingFlags.Instance | BindingFlags.NonPublic);
+                // var eqField = selectedLoadout.GearData.GetType().GetField("equippedUpgrades", BindingFlags.Instance | BindingFlags.NonPublic);;
+                // var loadField = selectedLoadout.GearData.GetType().GetField("loadouts", BindingFlags.Instance | BindingFlags.NonPublic);
                 
-                var equippedUpgrades = eqField?.GetValue(selectedLoadout.GearData) as IList;
-                var loadouts = loadField?.GetValue(selectedLoadout.GearData) as Array;
-                var loadout = loadouts?.GetValue(selectedLoadout.LoadoutIndex);
                 
-                var upField = loadout?.GetType().GetField("upgrades", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
-                var upgrades = upField?.GetValue(loadout) as IList;
-                if (Comparing.AreUpgradeListsEqual(equippedUpgrades, upgrades)) return;
+                var equippedUpgrades = selectedLoadout.GearData.equippedUpgrades;
+                var loadouts = selectedLoadout.GearData.loadouts;
+                var loadout = loadouts[selectedLoadout.LoadoutIndex];
+                
+                // var upField = loadout?.GetType().GetField("upgrades", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+                // var upgrades = upField?.GetValue(loadout) as IList;
+                if (Comparing.AreUpgradeListsEqual(equippedUpgrades, loadout.upgrades)) return;
                 
                 EquipAndApply(selectedLoadout);
                 DamagePlayerByPercentage(Player.LocalPlayer, PluginConfig.LoadoutChangeDMGPercent.Value);

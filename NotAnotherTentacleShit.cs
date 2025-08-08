@@ -32,11 +32,9 @@ public static class NotAnotherTentacleShit
     private static bool _isLoadoutWheelMode;
     private static bool _initialized;
     
-    // Cooldown tracking
     private static float _lastLoadoutChangeTime = -999f;
     private static LoadoutType? _activeWheelType;
 
-    // private static PropertyInfo _isTextChatOpenPlayerLook;
 
     private static bool IsTextChatOpen
     {
@@ -44,19 +42,6 @@ public static class NotAnotherTentacleShit
         {
             try
             {
-                // if (_isTextChatOpenPlayerLook == null)
-                // {
-                //     _isTextChatOpenPlayerLook = AccessTools.Property(typeof(PlayerLook), "IsTextChatOpen");
-                //     if (_isTextChatOpenPlayerLook == null)
-                //     {
-                //         // Field not found, log warning and return false
-                //         BasePlugin.Logger.LogWarning("IsTextChatOpen field not found in PlayerLook type. Defaulting to false.");
-                //         return false;
-                //     }
-                // }
-
-                // var result = _isTextChatOpenPlayerLook.GetValue(PlayerLook.Instance);
-                // return result != null && (bool)result;
                 return PlayerLook.Instance.IsTextChatOpen;
             }
             catch (Exception ex)
@@ -68,7 +53,6 @@ public static class NotAnotherTentacleShit
     }
 
     
-    // Initialize InputActions directly, not through patches
     public static void InitializeInputActions()
     {
         if (_initialized) return;
@@ -233,58 +217,6 @@ public static class NotAnotherTentacleShit
 
         try
         {
-            // var quipWheelField = AccessTools.Field(typeof(Highlighter), "quipWheel");
-            // var quipWheel = quipWheelField?.GetValue(highlighterInstance) as RectTransform;
-            //
-            // if (quipWheel == null)
-            // {
-            //     // Try to call the original method to see if it initializes anything
-            //     var originalMethod = AccessTools.Method(typeof(Highlighter), "HandleQuipWheel");
-            //     if (originalMethod != null)
-            //     {
-            //         originalMethod.Invoke(highlighterInstance, null);
-            //
-            //         // Check again after calling original
-            //         quipWheel = quipWheelField?.GetValue(highlighterInstance) as RectTransform;
-            //     }
-            //
-            //     if (quipWheel == null)
-            //     {
-            //         BasePlugin.Logger.LogError("quipWheel is still null even after calling original method");
-            //         return;
-            //     }
-            // }
-
-            
-            
-            
-            // var enableQuipWheelField = AccessTools.Field(typeof(Highlighter), "enableQuipWheel");
-            // var enableEquipWheelTimeField = AccessTools.Field(typeof(Highlighter), "enableEquipWheelTime");
-            // var timeBeforeActivatingWheelField = AccessTools.Field(typeof(Highlighter), "timeBeforeActivatingWheel");
-            // var selectedQuipIndexField = AccessTools.Field(typeof(Highlighter), "selectedQuipIndex");
-            // var quipLabelField = AccessTools.Field(typeof(Highlighter), "quipLabel");
-            // var quipIconsField = AccessTools.Field(typeof(Highlighter), "quipIcons");
-            // var quipSelectorField = AccessTools.Field(typeof(Highlighter), "quipSelector");
-            // var quipSelectedColorField = AccessTools.Field(typeof(Highlighter), "quipSelectedColor");
-            // var quipUnselectedColorField = AccessTools.Field(typeof(Highlighter), "quipUnselectedColor");
-            // var quipSelectedScaleField = AccessTools.Field(typeof(Highlighter), "quipSelectedScale");
-            // var emoteBindingField = AccessTools.Field(typeof(Highlighter), "emoteBinding");
-            //
-            //
-            // var enableQuipWheel = (bool)(enableQuipWheelField.GetValue(highlighterInstance) ?? false);
-            // var enableEquipWheelTime = (float)(enableEquipWheelTimeField?.GetValue(highlighterInstance) ?? 0f);
-            // var timeBeforeActivatingWheel = (float)(timeBeforeActivatingWheelField?.GetValue(highlighterInstance) ?? 0.05f);
-            // var selectedQuipIndex = (int)(selectedQuipIndexField?.GetValue(highlighterInstance) ?? 0);
-            // var quipLabel = quipLabelField?.GetValue(highlighterInstance) as TextMeshProUGUI;
-            // var quipIcons = quipIconsField?.GetValue(highlighterInstance) as List<Image>;
-            // var quipSelector = quipSelectorField?.GetValue(highlighterInstance) as Image;
-            // var quipSelectedColor = (Color)(quipSelectedColorField?.GetValue(highlighterInstance) ?? Color.white);
-            // var quipUnselectedColor = (Color)(quipUnselectedColorField?.GetValue(highlighterInstance) ?? Color.gray);
-            // var quipSelectedScale = (float)(quipSelectedScaleField?.GetValue(highlighterInstance) ?? 1.2f);
-            // var emoteBinding = emoteBindingField?.GetValue(highlighterInstance) as TextMeshPro;
-            //
-            // if (emoteBinding != null) emoteBinding.text = "";
-
             var enableEquipWheelTime = Highlighter.Instance.enableEquipWheelTime;
             var enableQuipWheel = Highlighter.Instance.enableQuipWheel;
             var timeBeforeActivatingWheel = Highlighter.Instance.timeBeforeActivatingWheel;
@@ -309,21 +241,18 @@ public static class NotAnotherTentacleShit
             {
                 PlayerInput.EnableMenu();
                 Highlighter.Instance.quipWheel.gameObject.SetActive(true);
-                
-                // Null check for PlayerLook.Instance
+
                 if (PlayerLook.Instance != null)
                 {
                     ++PlayerLook.Instance.RotationLocksX;
                     ++PlayerLook.Instance.RotationLocksY;
                 }
-                
-                // Null check for Player.LocalPlayer
+
                 if (Player.LocalPlayer != null)
                 {
                     Player.LocalPlayer.LockFiring(true);
                 }
 
-                // Set initial loadout label
                 if (_currentLoadouts.Count > 0 && Highlighter.Instance.quipLabel != null)
                 {
                     Highlighter.Instance.quipLabel.text = _currentLoadouts[Highlighter.Instance.selectedQuipIndex].Label;
@@ -360,7 +289,6 @@ public static class NotAnotherTentacleShit
                         }
                     }
 
-                    // Update selector rotation
                     if (Highlighter.Instance.quipSelector != null)
                     {
                         Highlighter.Instance.quipSelector.rectTransform.localEulerAngles = new Vector3(0.0f, 0.0f,
@@ -368,7 +296,6 @@ public static class NotAnotherTentacleShit
                                 (float)(newIndex * angleStep + angleStep + 90.0), 18f * Time.deltaTime));
                     }
 
-                    // Update icon colors and scales
                     if (Highlighter.Instance.quipIcons != null)
                     {
                         for (var i = 0; i < Mathf.Min(Highlighter.Instance.quipIcons.Count, _currentLoadouts.Count); ++i)
@@ -388,7 +315,6 @@ public static class NotAnotherTentacleShit
                     Highlighter.Instance.quipLabel.text = remainingCooldown > 0 
                         ? $"{selectedLoadout.Label}\n\n<size=32><color=white>On Cooldown\n{remainingCooldown:F1}s</size></color>" 
                         : $"{selectedLoadout.Label}\n\n<size=32><color=white>Ready!</size></color>";
-                    // Update label if selection changed
                     if (Highlighter.Instance.selectedQuipIndex == newIndex) return;
                     Highlighter.Instance.selectedQuipIndex = newIndex;
                     
@@ -399,7 +325,7 @@ public static class NotAnotherTentacleShit
         catch (Exception ex)
         {
             BasePlugin.Logger.LogError($"Error in HandleWeaponLoadoutWheel: {ex}");
-            throw; // Re-throw to be caught by the calling method
+            throw;
         }
     }
 
@@ -427,8 +353,6 @@ public static class NotAnotherTentacleShit
                 return;
             }
 
-            // BasePlugin.Logger.LogInfo($"WeaponLoadoutWheel called with performed: {performed}");
-
             if (performed)
             {
 
@@ -446,8 +370,6 @@ public static class NotAnotherTentacleShit
                     return;
                 }
 
-                // var fieldRefLoadouts = AccessTools.FieldRefAccess<PlayerData.GearData, object>("loadouts");
-                // var loadoutsObj = fieldRefLoadouts(gear);
                 var loadoutsObj = gear.loadouts;
 
                 if (loadoutsObj is not Array { Length: > 0 })
@@ -460,12 +382,8 @@ public static class NotAnotherTentacleShit
 
                 for (var i = 0; i < loadoutsObj.Length; i++)
                 {
-                    // var loadout = loadouts.GetValue(i);
-                    // var upgradesField = loadout.GetType().GetField("upgrades", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
-
                     var upgrades = loadoutsObj[i].upgrades;
-                    
-                    // if (upgradesField?.GetValue(loadout) is not IList { Count: > 0 }) continue;
+
                     if (upgrades is not IList { Count: > 0 }) continue;
                     
                     var loadoutData = new LoadoutData
@@ -478,7 +396,6 @@ public static class NotAnotherTentacleShit
                     loadoutDataList.Add(loadoutData);
                 }
 
-                // Check if we have any valid loadouts BEFORE enabling the wheel
                 if (loadoutDataList.Count == 0)
                 {
                     BasePlugin.Logger.LogWarning("No valid loadouts found, weapon wheel will not be activated");
@@ -487,22 +404,7 @@ public static class NotAnotherTentacleShit
 
                 _isLoadoutWheelMode = true;
                 _activeWheelType = type;
-                
-                
-                // var enableQuipWheelField = AccessTools.Field(typeof(Highlighter), "enableQuipWheel");
-                // var enableQuipWheelTimeField = AccessTools.Field(typeof(Highlighter), "enableEquipWheelTime");
-                // var selectedQuipIndexField = AccessTools.Field(typeof(Highlighter), "selectedQuipIndex");
-                // var emoteLabelField = AccessTools.Field(typeof(Highlighter), "emoteLabel");
-                // var emoteBindingField = AccessTools.Field(typeof(Highlighter), "emoteBinding");
-                
-                // var emoteBinding = emoteBindingField?.GetValue(highlighterInstance) as TextMeshPro;
-                // var emoteLabel = emoteLabelField?.GetValue(highlighterInstance) as TextMeshProUGUI;
 
-                // if (emoteBinding != null) emoteBinding.text = "";
-                // if (emoteLabel != null) emoteLabel.text = gear.Gear.Info.Name;
-                // enableQuipWheelField?.SetValue(highlighterInstance, true);
-                // enableQuipWheelTimeField?.SetValue(highlighterInstance, Time.unscaledTime);
-                // selectedQuipIndexField?.SetValue(highlighterInstance, 0);
 
                 Highlighter.Instance.emoteBinding.text = "";
                 Highlighter.Instance.emoteLabel.text = gear.Gear.Info.Name;
@@ -510,22 +412,14 @@ public static class NotAnotherTentacleShit
                 Highlighter.Instance.enableQuipWheel = true;
                 Highlighter.Instance.enableEquipWheelTime = Time.unscaledTime;
                 Highlighter.Instance.selectedQuipIndex = 0;
-                
-                
-                // Call our custom setup method
-                SetupLoadouts(highlighterInstance, loadoutDataList);
 
-                // BasePlugin.Logger.LogInfo($"Setup weapon loadout wheel with {loadoutDataList.Count} valid loadouts}");
+
+                SetupLoadouts(highlighterInstance, loadoutDataList);
             }
             else
             {
                 _activeWheelType = null;
-                
-                // var quipWheelField = AccessTools.Field(typeof(Highlighter), "quipWheel");
-                // var selectedQuipIndexField = AccessTools.Field(typeof(Highlighter), "selectedQuipIndex");
-                // var quipWheel = quipWheelField?.GetValue(highlighterInstance) as RectTransform;
-                // var selectedIndex = (int)(selectedQuipIndexField?.GetValue(highlighterInstance) ?? 0);
-                
+
                 var quipWheel = Highlighter.Instance.quipWheel;
                 var selectedIndex = Highlighter.Instance.selectedQuipIndex;
                 
@@ -546,23 +440,17 @@ public static class NotAnotherTentacleShit
                     }
                 }
 
-                // var enableQuipWheelField = AccessTools.Field(typeof(Highlighter), "enableQuipWheel");
-                // enableQuipWheelField?.SetValue(highlighterInstance, false);
-
                 Highlighter.Instance.enableQuipWheel = false;
                 
                 _isLoadoutWheelMode = false;
 
-                // BasePlugin.Logger.LogInfo($"Applying weapon loadout at index: {selectedIndex}");
-
-                // Apply the selected loadout using our stored data
                 ApplySelectedLoadout(selectedIndex);
             }
         }
         catch (Exception ex)
         {
             BasePlugin.Logger.LogError($"Error in WeaponLoadoutWheel: {ex}");
-            _isLoadoutWheelMode = false; // Reset mode on error
+            _isLoadoutWheelMode = false;
             _activeWheelType = null;
         }
     }
@@ -573,27 +461,14 @@ public static class NotAnotherTentacleShit
     {
         try
         {
-            // Store the current loadouts for later use
             _currentLoadouts.Clear();
             _currentLoadouts.AddRange(loadouts);
 
-            // Get necessary fields from Highlighter
-            // var quipIconsField = AccessTools.Field(typeof(Highlighter), Highlighter.Instance.quipIcons);
-            // var quipWheelField = AccessTools.Field(typeof(Highlighter), "quipWheel");
-            // var quipWheelRadiusField = AccessTools.Field(typeof(Highlighter), "quipWheelRadius");
-            // var quipIconSizeField = AccessTools.Field(typeof(Highlighter), "quipIconSize");
-            // var quipSelectorField = AccessTools.Field(typeof(Highlighter), "quipSelector");
-
-            // var quipIcons = quipIconsField?.GetValue(highlighterInstance) as List<Image>;
-            // var quipWheel = quipWheelField?.GetValue(highlighterInstance) as RectTransform;
-            // var quipWheelRadius = (float)(quipWheelRadiusField?.GetValue(highlighterInstance) ?? 100f);
-            // var quipIconSize = (float)(quipIconSizeField?.GetValue(highlighterInstance) ?? 50f);
-            // var quipSelector = quipSelectorField?.GetValue(highlighterInstance) as Image;
-            var quipIcons = Highlighter.Instance.quipIcons;
-            var quipWheel = Highlighter.Instance.quipWheel;
-            var quipWheelRadius = Highlighter.Instance.quipWheelRadius;
-            var quipIconSize = Highlighter.Instance.quipIconSize;
-            var quipSelector = Highlighter.Instance.quipSelector;
+            var quipIcons = highlighterInstance.quipIcons;
+            var quipWheel = highlighterInstance.quipWheel;
+            var quipWheelRadius = highlighterInstance.quipWheelRadius;
+            var quipIconSize = highlighterInstance.quipIconSize;
+            var quipSelector = highlighterInstance.quipSelector;
 
             if (quipIcons == null || quipWheel == null)
             {
@@ -605,7 +480,6 @@ public static class NotAnotherTentacleShit
 
             for (var i = 0; i < loadouts.Count; i++)
             {
-                // Create new icon if needed
                 if (i >= quipIcons.Count)
                 {
                     var iconObject = new GameObject(loadouts[i].Label);
@@ -620,12 +494,10 @@ public static class NotAnotherTentacleShit
                     quipIcons[i].gameObject.SetActive(true);
                 }
 
-                // Set the icon sprite
                 if (quipIcons[i] != null)
                 {
                     quipIcons[i].sprite = loadouts[i].Icon;
 
-                    // Position the icon in a circle
                     var angle = (angleStep * i + angleStep * 0.5f) * Mathf.Deg2Rad;
                     var position = new Vector2(
                         Mathf.Cos(angle) * quipWheelRadius,
@@ -637,14 +509,12 @@ public static class NotAnotherTentacleShit
                 }
             }
 
-            // Hide unused icons
             for (var i = loadouts.Count; i < quipIcons.Count; i++)
             {
                 if (quipIcons[i] != null && quipIcons[i].gameObject.activeSelf)
                     quipIcons[i].gameObject.SetActive(false);
             }
 
-            // Update selector
             if (quipSelector != null)
             {
                 quipSelector.fillAmount = angleStep / 360f;
@@ -673,11 +543,9 @@ public static class NotAnotherTentacleShit
                 return;
             }
 
-            // Check cooldown
             var remainingCooldown = GetRemainingCooldown();
             if (remainingCooldown > 0)
             {
-                // BasePlugin.Logger.LogWarning($"Loadout change on cooldown. {remainingCooldown:F1} seconds remaining.");
                 return;
             }
 
@@ -685,22 +553,15 @@ public static class NotAnotherTentacleShit
             
             if (selectedLoadout.GearData != null)
             {
-                // var eqField = selectedLoadout.GearData.GetType().GetField("equippedUpgrades", BindingFlags.Instance | BindingFlags.NonPublic);;
-                // var loadField = selectedLoadout.GearData.GetType().GetField("loadouts", BindingFlags.Instance | BindingFlags.NonPublic);
-                
-                
                 var equippedUpgrades = selectedLoadout.GearData.equippedUpgrades;
                 var loadouts = selectedLoadout.GearData.loadouts;
                 var loadout = loadouts[selectedLoadout.LoadoutIndex];
-                
-                // var upField = loadout?.GetType().GetField("upgrades", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
-                // var upgrades = upField?.GetValue(loadout) as IList;
+
                 if (Comparing.AreUpgradeListsEqual(equippedUpgrades, loadout.upgrades)) return;
                 
                 EquipAndApply(selectedLoadout);
                 DamagePlayerByPercentage(Player.LocalPlayer, PluginConfig.LoadoutChangeDMGPercent.Value);
-                
-                // Set cooldown
+
                 _lastLoadoutChangeTime = Time.unscaledTime;
             }
             else

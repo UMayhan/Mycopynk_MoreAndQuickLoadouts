@@ -8,19 +8,37 @@ namespace MoreAndQuickLoadouts;
 
 public class GearDetailsWindow_Awake_Patch
 {
+    private static bool _iconsLoaded = false;
+    private static Sprite[] _cachedIcons = null;
     
     [HarmonyPatch("Awake")]
     [HarmonyPrefix]
     public static bool PreAwake(GearDetailsWindow __instance)
     {
-        var path = System.IO.Path.Combine(Paths.PluginPath, MyPluginInfo.PLUGIN_GUID, "moreicons");
-        var bundle = AssetBundle.LoadFromFile(path);
-        var icons = bundle.LoadAllAssets<Sprite>();
-        var baseIcons = Global.Instance.LoadoutIcons;
-        var combinedIcons = new Sprite[baseIcons.Length + icons.Length];
-        baseIcons.CopyTo(combinedIcons, 0);
-        icons.CopyTo(combinedIcons, baseIcons.Length);
-        Global.Instance.LoadoutIcons = combinedIcons;
+        if (!_iconsLoaded)
+        {
+            var path = System.IO.Path.Combine(Paths.PluginPath, MyPluginInfo.PLUGIN_GUID, "moreicons");
+            var bundle = AssetBundle.LoadFromFile(path);
+            var icons = bundle.LoadAllAssets<Sprite>();
+            var baseIcons = Global.Instance.LoadoutIcons;
+            
+            var combinedIcons = new Sprite[baseIcons.Length + icons.Length];
+            baseIcons.CopyTo(combinedIcons, 0);
+            icons.CopyTo(combinedIcons, baseIcons.Length);
+            Global.Instance.LoadoutIcons = combinedIcons;
+            
+            _cachedIcons = combinedIcons;
+            _iconsLoaded = true;
+            
+            bundle.Unload(false);
+        }
+        else
+        {
+            if (_cachedIcons != null)
+            {
+                Global.Instance.LoadoutIcons = _cachedIcons;
+            }
+        }
         
         var injector = __instance.gameObject.AddComponent<LoadoutInjector>();
         injector.target = __instance;
@@ -28,6 +46,7 @@ public class GearDetailsWindow_Awake_Patch
         injector.Setup();
         return true;
     }
+
 
     [HarmonyPatch(typeof(GearDetailsWindow), nameof(GearDetailsWindow.OnClickUp))]
     [HarmonyPrefix]

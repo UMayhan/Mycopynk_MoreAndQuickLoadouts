@@ -2,6 +2,8 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=csharp,rider
 
 /lib/
+*.zip
+/MoreAndQuickLoadouts/
 
 ### Csharp ###
 ## Ignore Visual Studio temporary files, build results, and

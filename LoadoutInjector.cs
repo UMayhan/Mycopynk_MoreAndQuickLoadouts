@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using HarmonyLib;
 using Pigeon.UI;
 using UnityEngine;
@@ -11,15 +13,40 @@ public class LoadoutInjector : MonoBehaviour
 
     public int targetCount;
     private int spacingY => 52;
-    
-    public void InjectLoadouts()
+
+    public static LoadoutInjector Instance { get; private set; }
+    public SelectIconWindow selectIconWindow;
+
+    public void Awake()
     {
-        // BasePlugin.Logger.LogInfo("InjectLoadouts");
+        Instance = this;
+    }
+    
+    public void Setup()
+    {
+        SelectIconSetup();
+        InjectLoadouts();
+    }
+
+    private void SelectIconSetup()
+    {
+        var infoWindow = Instantiate(Global.Instance.InfoWindow, target.transform);
+        var infoWindowGO = infoWindow.gameObject;
+        var comp = infoWindowGO.GetComponent<InfoWindow>();
+        if(comp != null) DestroyImmediate(comp);
+        selectIconWindow = infoWindowGO.AddComponent<SelectIconWindow>();
+        selectIconWindow.gameObject.SetActive(false);
+        selectIconWindow.Setup(target);
+    }
+
+    private void InjectLoadouts()
+    {
 
         Transform lastIconSwitch = null;
         
-        var originalButtons = AccessTools.FieldRefAccess<GearDetailsWindow, LoadoutHoverInfo[]>("loadoutButtons");
-        var buttons = originalButtons(target);
+        // var originalButtons = AccessTools.FieldRefAccess<GearDetailsWindow, LoadoutHoverInfo[]>("loadoutButtons");
+        // var buttons = originalButtons(target);
+        var buttons = target.loadoutButtons;
         var existingCount = buttons.Length;
         if (targetCount <= existingCount) return;
         
@@ -32,7 +59,7 @@ public class LoadoutInjector : MonoBehaviour
             newButtons[j] = buttons[j];
         }
         
-        var lastLoadout = buttons.Length > 0 ? buttons[buttons.Length - 1].transform : null;
+        var lastLoadout = buttons.Length > 0 ? buttons[^1].transform : null;
         
         for (var i = targetTransform.childCount - 1; i >= 0; i--)
         {
@@ -41,7 +68,32 @@ public class LoadoutInjector : MonoBehaviour
             if (lastIconSwitch == null && child.name.StartsWith("IconB"))
                 lastIconSwitch = child;
         }
-        //last icon onMouseUp event
+
+        var originalIncrementLoadoutIcon = targetTransform.GetComponentsInChildren<Button>().Where(b => b.name.Contains("IconB")).ToList();
+
+        for (var i = 0; i < originalIncrementLoadoutIcon.Count; i++)
+        {
+            var increment = originalIncrementLoadoutIcon[i];
+            var persistentEventCount = increment.OnClickUp.GetPersistentEventCount();
+
+            increment.OnClickUp.RemoveAllListeners();
+
+            for (var j = persistentEventCount - 1; j >= 0; j--)
+            {
+                _ = increment.OnClickUp.GetPersistentTarget(j)?.name ?? "null";
+                increment.OnClickUp.GetPersistentMethodName(j);
+                increment.OnClickUp.SetPersistentListenerState(j, UnityEngine.Events.UnityEventCallState.Off);
+            }
+
+            var i1 = i;
+            increment.OnClickUp.AddListener(() =>
+            {
+                selectIconWindow.OnOpen(buttons[i1]);
+            });
+
+            increment.GetComponent<HoverInfoTextBinding>().primaryLabel = "Select Icon";
+        }
+        
         
         if (lastLoadout == null || lastIconSwitch == null)
         {
@@ -72,35 +124,31 @@ public class LoadoutInjector : MonoBehaviour
             {
                 // Log current listener count before removal
                 var persistentEventCount = iconBtn.OnClickUp.GetPersistentEventCount();
-                // BasePlugin.Logger.LogInfo($"Removing listeners from {iconName}. Persistent events: {persistentEventCount}");
                 
                 // Remove all listeners (both runtime and persistent)
                 iconBtn.OnClickUp.RemoveAllListeners();
                 
                 // Alternative approach if the above doesn't work:
                 // Get the persistent event count and remove them individually
-                for (int j = persistentEventCount - 1; j >= 0; j--)
+                for (var j = persistentEventCount - 1; j >= 0; j--)
                 {
-                    var targetName = iconBtn.OnClickUp.GetPersistentTarget(j)?.name ?? "null";
-                    var methodName = iconBtn.OnClickUp.GetPersistentMethodName(j);
-                    // BasePlugin.Logger.LogInfo($"Disabling persistent listener {j}: Target={targetName}, Method={methodName}");
+                    _ = iconBtn.OnClickUp.GetPersistentTarget(j)?.name ?? "null";
+                    iconBtn.OnClickUp.GetPersistentMethodName(j);
                     iconBtn.OnClickUp.SetPersistentListenerState(j, UnityEngine.Events.UnityEventCallState.Off);
                 }
                 
-                // BasePlugin.Logger.LogInfo($"Adding new listener for {iconName}");
                 iconBtn.OnClickUp.AddListener(() =>
                 {
-                    target.IncrementLoadoutIcon(loadoutHoverInfo);
+                    selectIconWindow.OnOpen(loadoutHoverInfo);
                 });
+                
+                iconBtn.GetComponent<HoverInfoTextBinding>().primaryLabel = "Select Icon";
             }
 
             newButtons[i] = loadoutHoverInfo;
         }
         
-        // Update the field with the new array
-        var loadoutButtonsField = AccessTools.Field(typeof(GearDetailsWindow), "loadoutButtons");
-        loadoutButtonsField.SetValue(target, newButtons);
+        target.loadoutButtons = newButtons;
         
-        // BasePlugin.Logger.LogInfo("InjectLoadouts done.");
     }
 }
